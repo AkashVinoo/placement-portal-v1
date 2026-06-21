@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Applicants</title>
+
+    <style>
+        body {
+            background-color: #F5F5DC;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #6F4E37;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .logout-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: white;
+            color: #6F4E37;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 92%;
+            margin: auto;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .table-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            color: #6F4E37;
+            background-color: #faf7f2;
+        }
+
+        .btn {
+            background-color: #6F4E37;
+            color: white;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 2px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #5a3f2d;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .applied { color: #946200; }
+        .shortlisted { color: #1b57b1; }
+        .selected { color: #1f6b2a; }
+        .rejected { color: #8a1f1f; }
+
+        a.resume-link, .back {
+            color: #6F4E37;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="/static/logo.png" alt="Logo" style="position:absolute; left:20px; top:50%; transform:translateY(-50%); height:60px; border-radius:6px;">
+        <h2>Applicants for Drive</h2>
+        <button class="logout-btn" onclick="location.href='/logout'">Logout</button>
+    </div>
+
+    <div class="container">
+        <div class="table-card">
+
+            <table>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Phone</th>
+                    <th>Resume</th>
+                    <th>Current Status</th>
+                    <th>Actions</th>
+                </tr>
+
+                {% for a in data %}
+                <tr>
+                    <td>{{ a.student_name }}</td>
+                    <td>{{ a.phone or '-' }}</td>
+                    <td>
+                        {% if a.resume %}
+                            <a class="resume-link" href="{{ url_for('static', filename =  a.resume) }}" target="_blank">View Resume</a>
+                        {% else %}
+                            No Resume
+                        {% endif %}
+                    </td>
+                    <td class="status
+                        {% if a.status == 'Applied' %} applied
+                        {% elif a.status == 'Shortlisted' %} shortlisted
+                        {% elif a.status == 'Selected' %} selected
+                        {% elif a.status == 'Rejected' %} rejected
+                        {% endif %}
+                    ">
+                        {{ a.status }}
+                    </td>
+                    <td>
+                        {% if a.status != 'Shortlisted' %}
+                            <a class="btn" href="/update_status/{{ a.app_id }}/Shortlisted">Shortlist</a>
+                        {% endif %}
+                        {% if a.status != 'Selected' %}
+                            <a class="btn" href="/update_status/{{ a.app_id }}/Selected">Select</a>
+                        {% endif %}
+                        {% if a.status != 'Rejected' %}
+                            <a class="btn" href="/update_status/{{ a.app_id }}/Rejected">Reject</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            {% if data|length == 0 %}
+                <p>No applicants yet.</p>
+            {% endif %}
+
+            <a class="back" href="/company_dashboard">← Back to dashboard</a>
+        </div>
+    </div>
+
+</body>
+</html>

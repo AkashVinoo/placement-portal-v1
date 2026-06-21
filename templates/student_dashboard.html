@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+
+    <style>
+        body {
+            background-color: #F5F5DC;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #6F4E37;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .logout-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: white;
+            color: #6F4E37;
+            border: none;
+            padding: 7px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 85%;
+            margin: auto;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .nav a {
+            margin: 10px;
+            color: #6F4E37;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .card {
+            background-color: white;
+            padding: 18px;
+            margin: 16px 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        h2, h3 {
+            color: #6F4E37;
+        }
+
+        .meta {
+            margin: 8px 0;
+            color: #333;
+        }
+
+        .btn {
+            background-color: #6F4E37;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+
+        .btn:hover {
+            background-color: #5a3f2d;
+        }
+
+        .empty {
+            text-align: center;
+            color: #444;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="/static/logo.png" alt="Logo" style="position:absolute; left:20px; top:50%; transform:translateY(-50%); height:60px; border-radius:6px;">
+        <h2>Approved Placement Drives</h2>
+        <button class="logout-btn" onclick="location.href='/logout'">Sign Out</button>
+    </div>
+
+    <div class="container">
+        <div class="nav">
+            <a href="/student_dashboard">Home</a>
+            <a href="/my_applications">My Applications</a>
+            <a href="/edit_profile">Edit Profile</a>
+        </div>
+
+        {% if message %}
+        <div class="message" style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <h2 style="color: #6F4E37;">Where You Stand</h2>
+
+        {% if applied %}
+            <table style="width:100%; background:white; border-radius:12px; border-collapse:collapse; margin-bottom:30px;">
+                <tr style="background-color:#faf7f2;">
+                    <th style="padding:12px; text-align:left; color:#6F4E37;">Company</th>
+                    <th style="padding:12px; text-align:left; color:#6F4E37;">Drive</th>
+                    <th style="padding:12px; text-align:left; color:#6F4E37;">Status</th>
+                </tr>
+                {% for a in applied %}
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding:12px;">{{ a.company }}</td>
+                    <td style="padding:12px;">{{ a.drive_title }}</td>
+                    <td style="padding:12px; font-weight:bold;">{{ a.status }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <div class="empty" style="margin-bottom:30px;">
+                <p>You haven't applied to any drives yet.</p>
+            </div>
+        {% endif %}
+
+        <h2 style="color: #6F4E37;">What's Out There</h2>
+
+        {% if drives %}
+            {% for d in drives %}
+            <div class="card">
+                <h3>{{ d.job_title }}</h3>
+                <p class="meta"><strong>About the Company:</strong> {{ d.company.company_name }}</p>
+                <p class="meta"><strong>Description:</strong> {{ d.job_description }}</p>
+                <p class="meta"><strong>Eligibility:</strong> {{ d.eligibility_criteria }}</p>
+                <p class="meta"><strong>Location:</strong> {{ d.location or '-' }}</p>
+                <p class="meta"><strong>Package:</strong> {{ d.package or '-' }}</p>
+                <p class="meta"><strong>Deadline:</strong> {{ d.application_deadline }}</p>
+
+                <a class="btn" href="/drive/{{ d.id }}">Check it out</a>
+                <a class="btn" href="/apply/{{ d.id }}">Apply</a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty">
+                <h3>Nothing on the radar right now.</h3>
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drive Details</title>
+    <style>
+        body {
+            background-color: #F5F5DC;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #6F4E37;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 60%;
+            margin: auto;
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #6F4E37;
+        }
+
+        .info {
+            margin: 12px 0;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        .actions {
+            margin-top: 25px;
+        }
+
+        .btn {
+            background-color: #6F4E37;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        a {
+            color: #6F4E37;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="/static/logo.png" alt="Logo" style="position:absolute; left:20px; top:50%; transform:translateY(-50%); height:60px; border-radius:6px;">
+        <h2>Here's the scoop</h2>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>{{ drive.job_title }}</h2>
+
+            <p class="info"><span class="label">What you'll do:</span> {{ drive.job_description }}</p>
+            <p class="info"><span class="label">Who can apply:</span> {{ drive.eligibility_criteria if drive.eligibility_criteria else 'Not specified' }}</p>
+            <p class="info"><span class="label">Where:</span> {{ drive.location or '-' }}</p>
+            <p class="info"><span class="label">Package:</span> {{ drive.package or '-' }}</p>
+            <p class="info"><span class="label">Apply by:</span> {{ drive.application_deadline }}</p>
+            <p class="info"><span class="label">Status:</span> {{ drive.status }}</p>
+
+            <div class="actions">
+                <button class="btn" onclick="location.href='/apply/{{ drive.id }}'">I'm interested</button>
+                <a href="/student_dashboard">← Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

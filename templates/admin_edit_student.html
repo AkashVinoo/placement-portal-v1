@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Student</title>
+    <style>
+        body {
+            background-color: #F5F5DC;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #6F4E37;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .container {
+            width: 50%;
+            margin: auto;
+            margin-top: 40px;
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        h2 {
+            color: #6F4E37;
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: 600;
+            color: #6F4E37;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            background-color: #6F4E37;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 18px;
+            margin-right: 8px;
+        }
+
+        a {
+            color: #6F4E37;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="/static/logo.png" alt="Logo" style="position:absolute; left:20px; top:50%; transform:translateY(-50%); height:60px; border-radius:6px;">
+        <h2>Edit Student</h2>
+    </div>
+
+    <div class="container">
+        <form method="POST">
+            <label>Full Name</label>
+            <input type="text" name="name" value="{{ student.name }}" required>
+
+            <label>Phone</label>
+            <input type="text" name="phone" value="{{ student.phone or '' }}">
+
+            <label>Department</label>
+            <input type="text" name="department" value="{{ student.department or '' }}">
+
+            <label>Course</label>
+            <input type="text" name="course" value="{{ student.course or '' }}">
+
+            <label>CGPA</label>
+            <input type="number" step="0.01" min="0" max="10" name="cgpa" value="{{ student.cgpa or '' }}">
+
+            <label>Passing Year</label>
+            <input type="number" name="passing_year" value="{{ student.passing_year or '' }}">
+
+            <button class="btn" type="submit">Save Changes</button>
+            <a href="/all_students">← Cancel</a>
+        </form>
+    </div>
+
+</body>
+</html>

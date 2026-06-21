@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Applications</title>
+    <style>
+        body {
+            background-color: #F5F5DC;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #6F4E37;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .logout-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: white;
+            color: #6F4E37;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 95%;
+            margin: auto;
+            margin-top: 30px;
+        }
+
+        .table-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        th {
+            color: #6F4E37;
+            background-color: #faf7f2;
+        }
+
+        .status { font-weight: bold; }
+        .applied { color: #946200; }
+        .shortlisted { color: #1b57b1; }
+        .selected { color: #1f6b2a; }
+        .rejected { color: #8a1f1f; }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #6F4E37;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <img src="/static/logo.png" alt="Logo" style="position:absolute; left:20px; top:50%; transform:translateY(-50%); height:60px; border-radius:6px;">
+    <h2>All Applications</h2>
+    <button class="logout-btn" onclick="location.href='/logout'">Logout</button>
+</div>
+
+<div class="container">
+    <div class="table-card">
+        <table>
+            <tr>
+                <th>Student</th>
+                <th>Company</th>
+                <th>Drive</th>
+                <th>Applied On</th>
+                <th>Status</th>
+            </tr>
+
+            {% for a in applications %}
+            <tr>
+                <td>{{ a.student_name }}</td>
+                <td>{{ a.company_name }}</td>
+                <td>{{ a.drive_title }}</td>
+                <td>{{ a.application_date }}</td>
+                <td class="status
+                    {% if a.status == 'Applied' %} applied
+                    {% elif a.status == 'Shortlisted' %} shortlisted
+                    {% elif a.status == 'Selected' %} selected
+                    {% elif a.status == 'Rejected' %} rejected
+                    {% endif %}
+                ">
+                    {{ a.status }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% if applications|length == 0 %}
+            <p>No applications found.</p>
+        {% endif %}
+
+        <a class="back" href="/admin_dashboard">← Back to Dashboard</a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Drives</title>
+    <style>
+        body {
+            background-color: #F5F5DC;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #6F4E37;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .logout-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: white;
+            color: #6F4E37;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            margin-top: 30px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 18px;
+            margin: 16px 0;
+            border-radius: 12px;
+        }
+
+        h2, h3 { color: #6F4E37; }
+
+        .meta { margin: 6px 0; }
+
+        .btn {
+            background-color: #6F4E37;
+            color: white;
+            padding: 7px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 8px;
+            margin-top: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover { background-color: #5a3f2d; }
+
+        .status { font-weight: bold; margin-top: 6px; }
+        .approved { color: green; }
+        .pending { color: orange; }
+        .rejected { color: red; }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #6F4E37;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <img src="/static/logo.png" alt="Logo" style="position:absolute; left:20px; top:50%; transform:translateY(-50%); height:60px; border-radius:6px;">
+    <h2>Manage Placement Drives</h2>
+    <button class="logout-btn" onclick="location.href='/logout'">Logout</button>
+</div>
+
+<div class="container">
+
+    {% for d in drives %}
+    <div class="card">
+        <h3>{{ d.job_title }}</h3>
+        <p class="meta"><strong>Company:</strong> {{ d.company.company_name }}</p>
+        <p class="meta"><strong>Description:</strong> {{ d.job_description }}</p>
+        <p class="meta"><strong>Eligibility:</strong> {{ d.eligibility_criteria }}</p>
+        <p class="meta"><strong>Deadline:</strong> {{ d.application_deadline }}</p>
+
+        <p class="status
+            {% if d.status == 'approved' %} approved
+            {% elif d.status == 'pending' %} pending
+            {% elif d.status == 'rejected' %} rejected
+            {% endif %}
+        ">
+            Status: {{ d.status }}
+        </p>
+
+        {% if d.status != 'approved' %}
+            <a class="btn" href="/approve_drive/{{ d.id }}">Approve</a>
+        {% endif %}
+
+        {% if d.status != 'rejected' %}
+            <a class="btn" href="/reject_drive/{{ d.id }}">Reject</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    {% if drives|length == 0 %}
+        <p>No drives available.</p>
+    {% endif %}
+
+    <a class="back" href="/admin_dashboard">← Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

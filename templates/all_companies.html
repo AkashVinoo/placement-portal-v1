@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>All Companies</title>
+
+
+<style>
+    body {
+        background-color: #F5F5DC;
+        font-family: "Segoe UI", Arial, sans-serif;
+        margin: 0;
+    }
+
+    .header {
+        background-color: #6F4E37;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        position: relative;
+    }
+
+    .logout-btn {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        background-color: white;
+        color: #6F4E37;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .container {
+        width: 90%;
+        margin: auto;
+        margin-top: 30px;
+    }
+
+    .search-box {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    input {
+        padding: 8px;
+        width: 250px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+
+    .btn {
+        background-color: #6F4E37;
+        color: white;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    .btn:hover {
+        background-color: #5a3f2d;
+    }
+
+    .card {
+        background-color: white;
+        padding: 18px;
+        margin: 16px 0;
+        border-radius: 12px;
+    }
+
+    h2, h3 {
+        color: #6F4E37;
+    }
+
+    .status {
+        font-weight: bold;
+    }
+
+    .approved { color: green; }
+    .pending { color: orange; }
+    .rejected { color: red; }
+
+    .blacklisted { color: red; }
+    .active { color: green; }
+
+    .back {
+        display: inline-block;
+        margin-top: 20px;
+        color: #6F4E37;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .back:hover {
+        text-decoration: underline;
+    }
+</style>
+
+
+</head>
+<body>
+
+<div class="header">
+    <img src="/static/logo.png" alt="Logo" style="position:absolute; left:20px; top:50%; transform:translateY(-50%); height:60px; border-radius:6px;">
+    <h2>All Companies</h2>
+    <button class="logout-btn" onclick="location.href='/logout'">Logout</button>
+</div>
+
+<div class="container">
+
+
+<div class="search-box">
+    <form action="/search_companies" method="GET">
+        <input type="text" name="q" placeholder="Search company name">
+        <button class="btn" type="submit">Search</button>
+    </form>
+</div>
+
+{% for c in companies %}
+<div class="card">
+
+    <h3>{{ c.company_name }}</h3>
+
+    <p><strong>HR Contact:</strong> {{ c.hr_contact }}</p>
+    <p><strong>Website:</strong> {{ c.website or '-' }}</p>
+
+    <p class="status
+        {% if c.approval_status == 'approved' %} approved
+        {% elif c.approval_status == 'pending' %} pending
+        {% elif c.approval_status == 'rejected' %} rejected
+        {% endif %}
+    ">
+        Status: {{ c.approval_status }}
+    </p>
+
+    <p class="status">
+        <strong>Account:</strong>
+        {% if c.is_blacklisted %}
+            <span class="blacklisted">Blacklisted</span>
+        {% else %}
+            <span class="active">Active</span>
+        {% endif %}
+    </p>
+
+    {% if c.approval_status != 'approved' %}
+        <a class="btn" href="/approve_company/{{ c.id }}">Approve</a>
+    {% endif %}
+
+    {% if c.approval_status != 'rejected' %}
+        <a class="btn" href="/reject_company/{{ c.id }}">Reject</a>
+    {% endif %}
+
+    {% if not c.is_blacklisted %}
+        <a class="btn" href="/blacklist_company/{{ c.user_id }}">Blacklist</a>
+    {% else %}
+        <a class="btn" href="/unblacklist_company/{{ c.user_id }}">Unblacklist</a>
+    {% endif %}
+
+    <a class="btn" href="/admin_edit_company/{{ c.id }}">Edit</a>
+    <a class="btn" href="/admin_delete_company/{{ c.id }}" onclick="return confirm('Delete this company?')">Delete</a>
+
+</div>
+{% endfor %}
+
+{% if companies|length == 0 %}
+    <p>No companies found.</p>
+{% endif %}
+
+<!-- Pagination -->
+{% if pagination and pagination.pages > 1 %}
+<div class="pagination" style="text-align: center; margin-top: 20px;">
+    {% if pagination.has_prev %}
+        <a class="btn" href="?page={{ pagination.prev_num }}">← Previous</a>
+    {% endif %}
+    
+    <span style="margin: 0 15px; color: #6F4E37; font-weight: bold;">
+        Page {{ pagination.page }} of {{ pagination.pages }}
+    </span>
+    
+    {% if pagination.has_next %}
+        <a class="btn" href="?page={{ pagination.next_num }}">Next →</a>
+    {% endif %}
+</div>
+{% endif %}
+
+<a class="back" href="/admin_dashboard">← Back to Dashboard</a>
+
+
+</div>
+
+</body>
+</html>

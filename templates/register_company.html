@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Company Registration</title>
+    <style>
+        body {
+            background-color: #F5F5DC;
+            font-family: "Segoe UI", Arial, sans-serif;
+            text-align: center;
+            padding-top: 60px;
+            margin: 0;
+        }
+
+        h1 {
+            color: #6F4E37;
+        }
+
+        .container {
+            background-color: white;
+            width: 400px;
+            margin: auto;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        input {
+            width: 85%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #6F4E37;
+            color: white;
+            padding: 10px;
+            width: 85%;
+            border: none;
+            border-radius: 6px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4B2E2B;
+        }
+
+        a {
+            display: block;
+            margin-top: 12px;
+            color: #6F4E37;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="/static/logo.png" alt="Logo" style="display:block; margin:0 auto 15px auto; height:65px; border-radius:8px;">
+        <h1>Company Registration</h1>
+        <p>Register your company profile for placement drives.</p>
+
+        <form method="POST">
+            <input type="text" name="company_name" placeholder="Company Name" required>
+            <input type="email" name="email" placeholder="Official Email" required>
+            <input type="text" name="hr_contact" placeholder="HR Contact">
+            <input type="url" name="website" placeholder="Company Website">
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Register Company</button>
+        </form>
+
+        <a href="/login">Already have an account? Login</a>
+        <a href="/">Back to Home</a>
+    </div>
+
+</body>
+</html>

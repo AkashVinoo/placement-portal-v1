@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Company Profile</title>
+    <style>
+        body {
+            background-color: #F5F5DC;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #6F4E37;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .container {
+            width: 55%;
+            margin: auto;
+            margin-top: 35px;
+            margin-bottom: 35px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #6F4E37;
+            margin-top: 0;
+        }
+
+        .form-group { margin-bottom: 16px; }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #6F4E37;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            background-color: #6F4E37;
+            color: white;
+            padding: 11px;
+            width: 100%;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .btn:hover { background-color: #5a3f2d; }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 18px;
+            color: #6F4E37;
+            text-decoration: none;
+        }
+
+        .back-link:hover { text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            .container { width: 90%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <img src="/static/logo.png" alt="Logo" style="position:absolute; left:20px; top:50%; transform:translateY(-50%); height:60px; border-radius:6px;">
+    <h2>Edit Company Profile</h2>
+</div>
+
+<div class="container">
+    <div class="card">
+        <form method="POST">
+            <div class="form-group">
+                <label>Company Name</label>
+                <input type="text" name="company_name" value="{{ company.company_name }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>HR Contact</label>
+                <input type="text" name="hr_contact" value="{{ company.hr_contact or '' }}">
+            </div>
+
+            <div class="form-group">
+                <label>Website</label>
+                <input type="url" name="website" value="{{ company.website or '' }}">
+            </div>
+
+            <button class="btn" type="submit">Update Profile</button>
+        </form>
+
+        <a class="back-link" href="/company_dashboard">← Back to dashboard</a>
+    </div>
+</div>
+
+</body>
+</html>

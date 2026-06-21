@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Company</title>
+    <style>
+        body {
+            background-color: #F5F5DC;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #6F4E37;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .container {
+            width: 50%;
+            margin: auto;
+            margin-top: 40px;
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        h2 {
+            color: #6F4E37;
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: 600;
+            color: #6F4E37;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            background-color: #6F4E37;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 18px;
+            margin-right: 8px;
+        }
+
+        a {
+            color: #6F4E37;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="/static/logo.png" alt="Logo" style="position:absolute; left:20px; top:50%; transform:translateY(-50%); height:60px; border-radius:6px;">
+        <h2>Edit Company</h2>
+    </div>
+
+    <div class="container">
+        <form method="POST">
+            <label>Company Name</label>
+            <input type="text" name="company_name" value="{{ company.company_name }}" required>
+
+            <label>HR Contact</label>
+            <input type="text" name="hr_contact" value="{{ company.hr_contact or '' }}">
+
+            <label>Website</label>
+            <input type="url" name="website" value="{{ company.website or '' }}">
+
+            <button class="btn" type="submit">Save Changes</button>
+            <a href="/all_companies">← Cancel</a>
+        </form>
+    </div>
+
+</body>
+</html>

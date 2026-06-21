@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>All Students</title>
+
+
+<style>
+    body {
+        background-color: #F5F5DC;
+        font-family: "Segoe UI", Arial, sans-serif;
+        margin: 0;
+    }
+
+    .header {
+        background-color: #6F4E37;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        position: relative;
+    }
+
+    .logout-btn {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        background-color: white;
+        color: #6F4E37;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .container {
+        width: 90%;
+        margin: auto;
+        margin-top: 30px;
+    }
+
+    .search-box {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    input {
+        padding: 8px;
+        width: 250px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+
+    .btn {
+        background-color: #6F4E37;
+        color: white;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    .btn:hover {
+        background-color: #5a3f2d;
+    }
+
+    .card {
+        background-color: white;
+        padding: 18px;
+        margin: 16px 0;
+        border-radius: 12px;
+    }
+
+    h2, h3 {
+        color: #6F4E37;
+    }
+
+    .status {
+        font-weight: bold;
+    }
+
+    .blacklisted {
+        color: red;
+    }
+
+    .active {
+        color: green;
+    }
+
+    .back {
+        display: inline-block;
+        margin-top: 20px;
+        color: #6F4E37;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .back:hover {
+        text-decoration: underline;
+    }
+</style>
+
+
+</head>
+<body>
+
+<div class="header">
+    <img src="/static/logo.png" alt="Logo" style="position:absolute; left:20px; top:50%; transform:translateY(-50%); height:60px; border-radius:6px;">
+    <h2>All Students</h2>
+    <button class="logout-btn" onclick="location.href='/logout'">Logout</button>
+</div>
+
+<div class="container">
+
+<div class="search-box">
+    <form action="/search_students" method="GET">
+        <input type="text" name="q" placeholder="Search by name, ID or phone">
+        <button class="btn" type="submit">Search</button>
+    </form>
+</div>
+
+{% for s in students %}
+<div class="card">
+
+    <h3>{{ s.name }}</h3>
+
+    <p><strong>ID:</strong> {{ s.user_id }}</p>
+    <p><strong>Phone:</strong> {{ s.phone }}</p>
+    <p><strong>Course:</strong> {{ s.course }}</p>
+    <p><strong>CGPA:</strong> {{ s.cgpa or '-' }}</p>
+    <p><strong>Passing Year:</strong> {{ s.passing_year or '-' }}</p>
+
+    <p class="status">
+        <strong>Status:</strong>
+        {% if s.is_blacklisted %}
+            <span class="blacklisted">Blacklisted</span>
+        {% else %}
+            <span class="active">Active</span>
+        {% endif %}
+    </p>
+
+    {% if not s.is_blacklisted %}
+        <a class="btn" href="/blacklist_student/{{ s.user_id }}">Blacklist</a>
+    {% else %}
+        <a class="btn" href="/unblacklist_student/{{ s.user_id }}">Unblacklist</a>
+    {% endif %}
+
+    <a class="btn" href="/admin_edit_student/{{ s.user_id }}">Edit</a>
+    <a class="btn" href="/admin_delete_student/{{ s.user_id }}" onclick="return confirm('Delete this student?')">Delete</a>
+
+</div>
+{% endfor %}
+
+{% if students|length == 0 %}
+    <p>No students found.</p>
+{% endif %}
+
+<!-- Pagination -->
+{% if pagination and pagination.pages > 1 %}
+<div class="pagination" style="text-align: center; margin-top: 20px;">
+    {% if pagination.has_prev %}
+        <a class="btn" href="?page={{ pagination.prev_num }}">← Previous</a>
+    {% endif %}
+    
+    <span style="margin: 0 15px; color: #6F4E37; font-weight: bold;">
+        Page {{ pagination.page }} of {{ pagination.pages }}
+    </span>
+    
+    {% if pagination.has_next %}
+        <a class="btn" href="?page={{ pagination.next_num }}">Next →</a>
+    {% endif %}
+</div>
+{% endif %}
+
+<a class="back" href="/admin_dashboard">← Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

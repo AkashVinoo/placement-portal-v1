@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+
+    <style>
+        body {
+            background-color: #F5F5DC;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #6F4E37;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 55%;
+            margin: auto;
+            margin-top: 35px;
+            margin-bottom: 35px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #6F4E37;
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #6F4E37;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            background-color: #6F4E37;
+            color: white;
+            padding: 11px;
+            width: 100%;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .btn:hover {
+            background-color: #5a3f2d;
+        }
+
+        .resume-box {
+            background: #faf7f2;
+            border: 1px solid #ddd;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .resume-box a {
+            color: #6F4E37;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 18px;
+            color: #6F4E37;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <img src="/static/logo.png" alt="Logo" style="position:absolute; left:20px; top:50%; transform:translateY(-50%); height:60px; border-radius:6px;">
+        <h2>Edit Your Profile</h2>
+    </div>
+
+    <div class="container">
+        <div class="card">
+
+            <form method="POST" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" value="{{ student.name }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" name="phone" value="{{ student.phone or '' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="course">Course</label>
+                    <input type="text" id="course" name="course" value="{{ student.course or '' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cgpa">CGPA</label>
+                    <input type="number" step="0.01" min="0" max="10" id="cgpa" name="cgpa" value="{{ student.cgpa if student.cgpa is not none else '' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="passing_year">Passing Year</label>
+                    <input type="number" id="passing_year" name="passing_year" value="{{ student.passing_year or '' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Resume</label>
+                    <div class="resume-box">
+                        {% if student.resume %}
+                            <a href="/{{ url_for('static', filename = student.resume) }}" target="_blank">Take a look at your resume</a>
+                        {% else %}
+                            <span>No resume uploaded yet.</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="resume">Upload a fresh resume</label>
+                    <input type="file" id="resume" name="resume">
+                </div>
+
+                <button class="btn" type="submit">Save Changes</button>
+
+            </form>
+
+            <a class="back-link" href="/student_dashboard">← Back to dashboard</a>
+
+        </div>
+    </div>
+
+</body>
+</html>

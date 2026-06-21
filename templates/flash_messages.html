@@ -1,0 +1,44 @@
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="flash-messages">
+    {% for message in messages %}
+    <div class="flash-message">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<style>
+    .flash-messages {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+    .flash-message {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px 20px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        animation: fadeOut 3s forwards;
+    }
+    @keyframes fadeOut {
+        0% { opacity: 1; }
+        70% { opacity: 1; }
+        100% { opacity: 0; display: none; }
+    }
+</style>
+
+<script>
+    // Auto hide flash messages after 3 seconds
+    setTimeout(function() {
+        var messages = document.querySelectorAll('.flash-message');
+        messages.forEach(function(msg) {
+            msg.style.display = 'none';
+        });
+    }, 3000);
+</script>

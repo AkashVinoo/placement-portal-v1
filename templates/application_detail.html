@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Application Detail</title>
+    <style>
+        body {
+            background-color: #F5F5DC;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #6F4E37;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .container {
+            width: 55%;
+            margin: auto;
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        h2 {
+            color: #6F4E37;
+            margin-top: 0;
+        }
+
+        p {
+            margin: 12px 0;
+        }
+
+        .btn {
+            background-color: #6F4E37;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 8px;
+            margin-top: 12px;
+        }
+
+        a {
+            color: #6F4E37;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="/static/logo.png" alt="Logo" style="position:absolute; left:20px; top:50%; transform:translateY(-50%); height:60px; border-radius:6px;">
+        <h2>Application Details</h2>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>{{ data.studentname }}</h2>
+            <p><strong>Application ID:</strong> {{ data.appid }}</p>
+            <p><strong>Email:</strong> {{ data.email }}</p>
+            <p><strong>Drive:</strong> {{ data.drivetitle }}</p>
+            <p><strong>Applied On:</strong> {{ data.application_date if data.application_date else 'Not Available' }}</p>
+            <p><strong>Current Status:</strong> {{ data.status }}</p>
+
+            <p>
+                <strong>Resume:</strong>
+                {% if data.resume %}
+                    <a href="{{ data.resume }}" target="_blank">View Resume</a>
+                {% else %}
+                    No Resume Uploaded
+                {% endif %}
+            </p>
+
+            <button class="btn" onclick="location.href='/update_status/{{ data.appid }}/Shortlisted'">Shortlist</button>
+            <button class="btn" onclick="location.href='/update_status/{{ data.appid }}/Selected'">Select</button>
+            <button class="btn" onclick="location.href='/update_status/{{ data.appid }}/Rejected'">Reject</button>
+
+            <br>
+            <a href="/view_applicants/{{ data.drive_id }}">← Back to Applicants</a>
+        </div>
+    </div>
+
+</body>
+</html>
